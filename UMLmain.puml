@@ -1,0 +1,53 @@
+@startuml
+
+interface subject {
+observatorCollection: List<Observer>
+
++addObserver(item:Observer):void
++removeObserver(item:Observer):void
++notifyObserver(item:Observer):void
++notifyAll():void
+
+}
+interface observer{
++update()
+}
+
+
+
+class FireDepartment{
+-strategy: Istrategy
+
++setStrategy(param:Istrategy):void
++execute():void
+
+}
+
+class FireBrigadeUnit{
+int coordxX
+int coordY
+int avaibleCars
+observatorCollection: List<Observer>
+
+
+
+}
+
+observer <- FireBrigadeUnit
+subject <- FireDepartment
+
+interface Istrategy{
++execute():void
+}
+'class Fire{}
+'class LocalHazard{}
+
+Istrategy<-Fire
+Istrategy<-LocalHazard
+
+
+
+
+
+@enduml
+
