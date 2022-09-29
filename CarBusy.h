@@ -4,10 +4,6 @@
 #pragma once
 #include "CarState.h"
 
-using cartime =  std::chrono::time_point<std::chrono::system_clock>;
-
-
-
 
 
 class CarBusy : public CarState{
@@ -19,9 +15,6 @@ public:
     virtual ~CarBusy() = default;
 
     CarBusy(time_t);
-
-
-
 
 
 };

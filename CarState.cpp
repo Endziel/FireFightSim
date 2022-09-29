@@ -13,6 +13,6 @@ void CarState::changeState(Car* c, CarState *cs) {
     c->changeState(cs);
 }
 
-bool CarState::getIsSended() {
-    return _isSended;
-}
+//bool CarState::getIsSended() {
+//    return _isSended;
+//}

@@ -7,7 +7,6 @@
 #include <chrono>
 #include <ctime>
 
-using cartime =  std::chrono::time_point<std::chrono::system_clock>;
 
 class Car;
 
@@ -16,15 +15,15 @@ class Car;
 
 class CarState {
 protected:
-    bool _isSended = true;
+//    bool _isSended = true;
     time_t _timeSendedToAction;
 
 public:
-    virtual bool sendCar(Car*, time_t);
+    virtual bool sendCar(Car*, time_t) = 0;
 
     void changeState(Car*,CarState*);
 
-    virtual bool getIsSended();
+//    virtual bool getIsSended();
 
     virtual ~CarState() = default;
 

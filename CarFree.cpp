@@ -13,10 +13,6 @@ currentCar->changeState(new CarBusy(std::time(NULL) + timeToSendCar ));
     return true;
 
 
-//wait 5 s
-
-
-//    currentCar->changeState(new CarFree);
 
 }
 

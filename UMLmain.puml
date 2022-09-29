@@ -1,51 +1,139 @@
 @startuml
+class Car{
+-CarState* _currentstate
+-void changeState(CarState*)
 
-interface subject {
-observatorCollection: List<Observer>
-
-+addObserver(item:Observer):void
-+removeObserver(item:Observer):void
-+notifyObserver(item:Observer):void
-+notifyAll():void
-
-}
-interface observer{
-+update()
++bool sendCar(time_t)
 }
 
+Abstract CarState{
+#time_t _timeSendedToAction;
++ void changeState(Car*, CarState*)
++virtual bool sendCar(Car*, time_t)
+}
 
+class CarBusy{
++CarBusy(time_t)
+}
 
-class FireDepartment{
--strategy: Istrategy
+class CarFree{}
 
-+setStrategy(param:Istrategy):void
-+execute():void
+class EventInfo{
++double coordx
++double coordY
++double driveTime
++int carToSend
++bool isFalseAlarm
+}
+note "Struct for passing information about event\n between strategy and FireDepartment" as N2
+EventInfo .. N2
 
+class EventIterator{
+-FireDepartment *_firedep
++EventIterator(FireDepartment *)
+}
+
+class Fire{
++Fire(double,double)
 }
 
 class FireBrigadeUnit{
-int coordxX
-int coordY
-int avaibleCars
-observatorCollection: List<Observer>
+-std::array<Car*,5> _cars
+-double _coordX
+-double _coordY
+-std::string _nameOfFireBrigadeUnit
 
++FireBrigadeUnit(double,double,std::string)
+
+}
+
+class FireDepartment{
+-IStrategy *_currentStrategy
+-EvenInfo _event
+std::map <double,Observer*> _mapOfClosestBrigadeUnits
+void createMapOfDistance()
+double distanceInGS84(double lat1,double lon1,double lat2,double lon2)
+
++void execute()
++void setStrategy(IStrategy* strategy)
 
 
 }
 
-observer <- FireBrigadeUnit
-subject <- FireDepartment
+Abstract IStrategy{
++virtual EventInfo execute() = 0
 
-interface Istrategy{
-+execute():void
+#double _coordX
+#double _coordY
+#double _arriveTime
+#double _actionTime
+#double _returnTime
+#int _carToSend
+#bool _isFalseAlarm
+
+#virtual void setCoordAndTimes(double,double)
+
 }
-'class Fire{}
-'class LocalHazard{}
 
-Istrategy<-Fire
-Istrategy<-LocalHazard
+Interface Iterator{
+virtual void next() = 0;
+}
+
+class LocalHazard{
++LocalHazard(double,double)
+}
+
+Interface Observer{
++virtual bool update(Subject*)
++virtual double getCoordX()
++virtual double getCoordY()
++virtual std::string getNameOfFireBrigadeUnit()
+
+}
+
+Abstract Subject{
++virtual void addObserver(Observer*)
++virtual void removeObserver(Observer*)
++virtual void notifyObserver(Observer*)
++virtual void notifyAllObservers();
+
++virtual double getDriveTime() = 0
+
+#std::list<Observer*> _listOfOBservers
 
 
+}
+
+
+Annotation Utils{
++generateDouble(int,int)
++generateDouble(double,double)
+}
+
+
+
+
+CarState<|--CarBusy
+CarState<|--CarFree
+
+Iterator <|--EventIterator
+
+IStrategy <|-- Fire
+IStrategy <|-- LocalHazard
+
+Observer <|-- FireBrigadeUnit
+Subject <|-- FireDepartment
+
+Car *-- CarState
+EventIterator *-- FireDepartment
+FireBrigadeUnit *-- Car
+FireDepartment o-- IStrategy
+
+Subject o-- Observer
+
+FireDepartment o-- EventInfo
+IStrategy -- Utils :usues
+EventIterator -- Utils :usues
 
 
 
